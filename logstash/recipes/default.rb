@@ -1,19 +1,19 @@
 
 # create directories
 
-directory "/opt/logstash-#{node[:logstash][:version]}" do
+directory "/opt/logstash-#{node[:logstash][:version]}/" do
   user 'logstash'
   group 'logstash'
   mode '0755'
 end
 
-directory '/etc/logstash/' do
+directory "/etc/logstash-#{node[:logstash][:version]}/" do
   user 'logstash'
   group 'logstash'
   mode '0755'
 end
 
-directory '/var/log/logstash/' do
+directory "/var/log/logstash-#{node[:logstash][:version]}/" do
   user 'logstash'
   group 'logstash'
   mode '0755'
