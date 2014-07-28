@@ -1,0 +1,41 @@
+
+# create directories
+
+directory '/opt/logstash' do
+  user 'logstash'
+  group 'logstash'
+  mode '0755'
+end
+
+directory '/etc/logstash' do
+  user 'logstash'
+  group 'logstash'
+  mode '0755'
+end
+
+directory '/var/log/logstash' do
+  user 'logstash'
+  group 'logstash'
+  mode '0755'
+end
+
+# install packages
+
+bash 'install elasticsearch' do
+  not_if "/opt/logstash/elasticsearch --version | grep -q '#{node[:elasticsearch][:version]}'"
+  user "root"
+  cwd "/opt/logstash"
+  code <<-EOH
+    wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-#{node[:elasticsearch][:version]}.deb /var/cache/apt/archives/
+    sudo dpkg -i elasticsearch-#{node[:elasticsearch][:version]}.deb
+  EOH
+end
+
+package 'redis-server' do
+  action :install
+end
+
+package 'logstash' do
+  action :install
+end
+
